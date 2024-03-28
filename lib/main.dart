@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,68 +23,89 @@ class MyApp extends StatelessWidget {
 class Home extends StatefulWidget {
   const Home({super.key});
 
-
-
   @override
   State<Home> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<Home> {
-  TextEditingController pesoController = new TextEditingController();
-  TextEditingController alturaController = new TextEditingController();
+  TextEditingController emailController = new TextEditingController();
+  TextEditingController senhaController = new TextEditingController();
   String _textoInfo = "Informe seus dados";
+
+  void cadastrar(){
+    emailController.text = "";
+    senhaController.text = "";
+    setState((){
+      _textoInfo = "Dados cadastrados com sucesso";
+    });
+  }
+
+  void _Limpar() {
+    emailController.text = "";
+    senhaController.text = "";
+    setState(() {
+      _textoInfo = "Informe seus dados";
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Calculadora IMC"),
+        title: Text("Cadastro de usuário"),
         centerTitle: true,
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.green,
         actions: <Widget>[
-          IconButton(onPressed: () {}, icon: Icon(Icons.refresh))
+          IconButton(onPressed: _Limpar, icon: Icon(Icons.refresh))
         ],
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+        padding: const EdgeInsets.fromLTRB(10, 25, 10, 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             const Icon(
               Icons.person_outline,
               size: 120.0,
-              color: Colors.blue,
+              color: Colors.green,
             ),
             TextField(
-              keyboardType: TextInputType.number,
+              keyboardType: TextInputType.text,
               decoration: InputDecoration(
-                  labelText: "Peso (Kg)",
-                  labelStyle: TextStyle(color: Colors.blue)),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 25.0),
-              controller: pesoController,
+                  labelText: "Email",
+                  icon: Padding(
+                    padding: EdgeInsets.only(top: 15.0),
+                    child: Icon(Icons.email),
+                  )
+              ),
+              controller: emailController
             ),
             TextField(
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                  labelText: "Peso (Kg)",
-                  labelStyle: TextStyle(color: Colors.blue)),
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 25.0),
-              controller: alturaController,
+              keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                    labelText: 'Senha',
+                    icon: Padding(
+                      padding: EdgeInsets.only(top: 15.0),
+                      child: Icon(Icons.lock),
+                    )
+                ),
+                controller: senhaController,
+              obscureText: true,
             ),
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: SizedBox(
                 height: 50.0,
                 child: ElevatedButton(
-                    onPressed: () {}, child: const Text("Calcular")),
+                    onPressed: cadastrar,
+                    child: const Text("Cadastrar")
+                ),
               ),
             ),
             Text(
               _textoInfo,
               textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.blue, fontSize: 25.0),
+              style: TextStyle(color: Colors.green, fontSize: 25.0),
             )
           ],
         ),
